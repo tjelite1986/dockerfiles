@@ -1,0 +1,64 @@
+services:
+  navidrome:
+    container_name: navidrome
+    image: deluan/navidrome:latest
+    restart: unless-stopped
+#    hostname: navidrome
+#      user: 1000:1000
+    networks:
+      - $NETWORKS
+    ports:
+      - 4533:4533
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      # Optional: put your config options customization here. Examples:
+#      ND_CACHEFOLDER: ./cache
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info  
+      ND_SESSIONTIMEOUT: 24h
+      ND_BASEURL: [changme]
+      ND_COVERJPEGQUALITY: 95
+      ND_ENABLECOVERANIMATION: false
+      ND_ENABLEDOWNLOADS: true
+      ND_ENABLEFAVOURITES: true
+      ND_ENABLELOGREDACTING: true
+      ND_ENABLEREPLAYGAIN: true
+      ND_ENABLESHARING: true
+      ND_ENABLESTARRATING: true
+      ND_JUKEBOX_ENABLED: true
+      ND_LASTFM_ENABLED: true
+      ND_LASTFM_APIKEY: [changme]
+      ND_LASTFM_SECRET: [changme]
+      ND_LASTFM_LANGUAGE: "en"
+      ND_SPOTIFY_ID: [changme]
+      ND_SPOTIFY_SECRET: [changme]
+      ND_SMARTPLAYLISTREFRESHDELAY: "5s"
+      ND_SUBSONICARTISTPARTICIPATIONS: true
+      ND_UIWELCOMEMESSAGE: "Musicfy"
+#      UILoginBackgroundUrl: ""
+      ND_ENABLEMEDIAFILECOVERART: "true"
+      ND_SCANNER_EXTRACTOR: "ffmpeg"
+      ND_PLAYLISTSPATH: "/playlists"
+    volumes:
+      - $DATADIR/navidrome:/data
+      # - navidrome_data:/data
+      - /mnt:/mnt
+#      - /mnt/music/cache:/cache
+      - /mnt/media/music:/music:ro
+      - /mnt/media/navidrome/playlist:/playlists
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - "traefik.enable=true"
+      # Router för HTTPS
+      - "traefik.http.routers.navidrome-secure.rule=Host(`navidrome.$DOMAIN`)"
+      - "traefik.http.routers.navidrome-secure.entrypoints=https"
+      - "traefik.http.routers.navidrome-secure.tls=true"
+      - "traefik.http.routers.navidrome-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.navidrome-secure.service=navidrome-service"
+      - "traefik.http.services.navidrome-service.loadbalancer.server.port=4533"
+      - "traefik.http.routers.navidrome-secure.middlewares=sslheader@docker"
+
+volumes:
+  navidrome_data:
