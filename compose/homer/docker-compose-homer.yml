@@ -1,0 +1,26 @@
+services:
+  homer:
+    image: b4bz/homer
+    #To build from source, comment previous line and uncomment below
+    #build: .
+    container_name: homer
+    user: 1000:1000 # default
+    restart: unless-stopped
+    networks:
+      - $NETWORKS
+    ports:
+      - 8086:8080
+    environment:
+      INIT_ASSETS: 1 # default
+    volumes:
+      - $DATADIR/homer/assets:/www/assets
+    labels:
+      - "traefik.enable=true"
+      # Router för HTTPS
+      - "traefik.http.routers.homer-secure.rule=Host(`homer.$DOMAIN`)"
+      - "traefik.http.routers.homer-secure.entrypoints=https"
+      - "traefik.http.routers.homer-secure.tls=true"
+      - "traefik.http.routers.homer-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.homer-secure.service=homer-service"
+      - "traefik.http.services.homer-service.loadbalancer.server.port=8080"
+      - "traefik.http.routers.homer-secure.middlewares=sslheader@docker"
