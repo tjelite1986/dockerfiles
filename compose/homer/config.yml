@@ -1,1 +1,163 @@
-.
+---
+# Homepage configuration
+# See https://fontawesome.com/icons for icons options
+
+title: "Cude Web Services"
+subtitle: "Dashboard"
+#logo: "logo.png"
+icon: "fas fa-skull-crossbones" # Optional icon
+
+header: true
+footer: false 
+columns: "4"
+
+# Optional theme customization
+theme: default
+colors:
+  light:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#f5f5f5"
+    card-background: "#ffffff"
+    text: "#363636"
+    text-header: "#ffffff"
+    text-title: "#303030"
+    text-subtitle: "#424242"
+    card-shadow: rgba(0, 0, 0, 0.1)
+    link-hover: "#363636"
+  dark:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#131313"
+    card-background: "#2b2b2b"
+    text: "#eaeaea"
+    text-header: "#ffffff"
+    text-title: "#fafafa"
+    text-subtitle: "#f5f5f5"
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link-hover: "#ffdd57"
+
+# Optional message
+#message:
+#  #url: https://b4bz.io
+#  style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
+#  title: "Demo !"
+#  icon: "fa fa-grin"
+#  content: "This is a dummy homepage demo. <br /> Find more information on <a href='https://github.com/bastienwirtz/homer'>github.com/bastienwirtz/homer</a>"
+
+# Optional navbar
+# links: [] # Allows for navbar (dark mode, layout, and search) without any links
+links:
+  - name: "dashboardicons.com"
+    icon: "fab fa-dashboard"
+    url: "https://dashboardicons.com/icons"
+    target: "_blank" # optional html a tag target attribute
+  - name: "Github"
+    icon: "fab fa-github"
+    url: "https://github.com/tanner4137"
+    target: "_blank" # optional html a tag target attribute
+  - name: "Wiki"
+    icon: "fas fa-book"
+    url: "https://www.wikipedia.org/"
+  # this will link to a second homer page that will load config from additionnal-page.yml and keep default config values as in config.yml file
+  # see url field and assets/additionnal-page.yml.dist used in this example:
+  - name: "Blog"
+    icon: "fas fa-file-alt"
+    url: "https://tcude.net" 
+
+# Services
+# First level array represent a group.
+# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+services:
+  - name: "Elfhosted Services"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Plex"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/plexripper.png"
+        subtitle: "Plex Media Server"
+        tag: "app"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+      - name: "Sonarr4K"
+        type: "Matrix"
+        tag: "media"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/sonarr-4k.webp"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+        subtitle: "Series Management (4K)"
+        
+      - name: "Sonarr"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/sonarr.webp"
+        subtitle: "Series Management"
+        tag: "app"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+
+      - name: "Radarr4K"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/radarr.webp"
+        subtitle: "Movies Management (4K)"
+        tag: "app"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+        
+      - name: "Radarr"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/radarr-4k.webp"
+        subtitle: "Movies Management"
+        tag: "app"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+        
+  - name: "Mecloud.win Services"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Plex"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/plexripper.png"
+        subtitle: "Plex Media Server"
+        tag: "app"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+        
+  - name: "Music Services"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Navidrome"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/navidrome.png"
+        subtitle: "Navidrome Music Server"
+        tag: "app"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+        
+  - name: "File Share"
+    icon: "fas fa-cloud"
+    items:
+      - name: "PWNDrop"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/pwndrop.png"
+        subtitle: "File Share"
+        tag: "app"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+        
+  - name: "Tools & Management"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Traefik"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/traefik.png"
+        subtitle: "Reverse Proxy and Load Balancer"
+        tag: "app"
+        url: "[addyoururl]"
+        target: "_blank" # optional html a tag target attribute
+        
+      - name: "Cloudflare"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/cloudflare.png"
+        subtitle: "DNS and WAF"
+        tag: "app"
+        url: "https://dash.cloudflare.com/login"
+        
+      - name: "Portainer"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/portainer.png"
+        subtitle: "Portainer instance"
+        tag: "app"
+        url: "[addyoururl]"
+
