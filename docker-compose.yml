@@ -11,3 +11,5 @@ networks:
 include:        
   ### SERVICES ###
   - $DOCKERDIR/traefik/docker-compose-traefik.yml
+  - $DOCKERDIR/compose/navidrome/docker-compose-navidrome.yml
+  
