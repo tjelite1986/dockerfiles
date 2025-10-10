@@ -18,7 +18,7 @@ services:
       ND_SCANSCHEDULE: 1h
       ND_LOGLEVEL: info  
       ND_SESSIONTIMEOUT: 24h
-      ND_BASEURL: [changme]
+      ND_BASEURL: $ND_BASEURL
       ND_COVERJPEGQUALITY: 95
       ND_ENABLECOVERANIMATION: false
       ND_ENABLEDOWNLOADS: true
@@ -29,11 +29,11 @@ services:
       ND_ENABLESTARRATING: true
       ND_JUKEBOX_ENABLED: true
       ND_LASTFM_ENABLED: true
-      ND_LASTFM_APIKEY: [changme]
-      ND_LASTFM_SECRET: [changme]
+      ND_LASTFM_APIKEY: $ND_LASTFM_APIKEY
+      ND_LASTFM_SECRET: $ND_LASTFM_SECRET
       ND_LASTFM_LANGUAGE: "en"
-      ND_SPOTIFY_ID: [changme]
-      ND_SPOTIFY_SECRET: [changme]
+      ND_SPOTIFY_ID: $ND_SPOTIFY_ID
+      ND_SPOTIFY_SECRET: $ND_SPOTIFY_SECRET
       ND_SMARTPLAYLISTREFRESHDELAY: "5s"
       ND_SUBSONICARTISTPARTICIPATIONS: true
       ND_UIWELCOMEMESSAGE: "Musicfy"
@@ -46,8 +46,8 @@ services:
       # - navidrome_data:/data
       - /mnt:/mnt
 #      - /mnt/music/cache:/cache
-      - /mnt/media/music:/music:ro
-      - /mnt/media/navidrome/playlist:/playlists
+      - $NAVIMUSICDIR:/music:ro
+      - $NAVIPLAYLISTDIR:/playlists
       - /etc/localtime:/etc/localtime:ro
     labels:
       - "traefik.enable=true"
