@@ -1,0 +1,13 @@
+########################### NETWORKS
+networks:
+  default:
+    driver: bridge
+  proxnet:
+    name: proxnet
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.69.0/24
+include:        
+  ### SERVICES ###
+  - $DOCKERDIR/traefik/docker-compose-traefik.yml
