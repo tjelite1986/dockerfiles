@@ -46,8 +46,8 @@ services:
       # - navidrome_data:/data
       - /mnt:/mnt
 #      - /mnt/music/cache:/cache
-      - $NAVIMUSICDIR:/music:ro
-      - $NAVIPLAYLISTDIR:/playlists
+      - /mnt/media/music/mp3:/music:ro
+      - /mnt/media/music/navidrome/playlist:/playlists
       - /etc/localtime:/etc/localtime:ro
     labels:
       - "traefik.enable=true"
