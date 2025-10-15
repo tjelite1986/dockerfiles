@@ -1,0 +1,37 @@
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    restart: unless-stopped
+    devices:
+      - /dev/dri:/dev/dri
+    networks:
+      - $NETWORKS
+    ports:
+      - 1900/udp
+      - 32400/tcp
+#      - 32410/udp
+#      - 32412/udp
+#      - 32413/udp
+#      - 32414/udp
+      - 32469/tcp
+ #     - 8324/tcp
+    environment:
+      PLEX_UID: $PUID
+      PLEX_GID: $PGID
+      PLEX_CLAIM: $PLEX_CLAIM
+    volumes:
+      - /dev/shm:/dev/shm
+      - $TRANSCODESDIR/plex:/transcode
+      - /mnt:/mnt
+      - $DATADIR/plex:/config
+    labels:
+      - "traefik.enable=true"
+      # Router för HTTPS
+      - "traefik.http.routers.plex-secure.rule=Host(`plex.$DOMAIN`)"
+      - "traefik.http.routers.plex-secure.entrypoints=https"
+      - "traefik.http.routers.plex-secure.tls=true"
+      - "traefik.http.routers.plex-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.plex-secure.service=plex-service"
+      - "traefik.http.services.plex-service.loadbalancer.server.port=32400"
+      - "traefik.http.routers.plex-secure.middlewares=sslheader@docker"
