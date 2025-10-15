@@ -1,0 +1,26 @@
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    networks:
+      - $NETWORKS
+    ports:
+      - 8095:80
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+    volumes:
+      - /home:/srv #Change to match your directory
+      - $DATADIR/filebrowser/filebrowser.db:/database/filebrowser.db #Change to match your directory
+      - $DATADIR/filebrowser/settings.json:/config/settings.json #Change to match your directory
+    labels:
+      - "traefik.enable=true"
+      # Router för HTTPS
+      - "traefik.http.routers.filebrowser-secure.rule=Host(`filebrowser.$DOMAIN`)"
+      - "traefik.http.routers.filebrowser-secure.entrypoints=https"
+      - "traefik.http.routers.filebrowser-secure.tls=true"
+      - "traefik.http.routers.filebrowser-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.filebrowser-secure.service=filebrowser-service"
+      - "traefik.http.services.filebrowser-service.loadbalancer.server.port=8095"
+      - "traefik.http.routers.filebrowser-secure.middlewares=sslheader@docker"
