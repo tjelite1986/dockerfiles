@@ -15,3 +15,4 @@ include:
   - $DOCKERDIR/compose/homer/docker-compose-homer.yml
   - $DOCKERDIR/compose/metube/docker-compose-metube.yml
   - $DOCKERDIR/compose/filebrowser/docker-compose-filebrowser.yml
+  - $DOCKERDIR/compose/pwndrop/docker-compose-pwndrop.yml
