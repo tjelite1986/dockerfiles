@@ -1,0 +1,40 @@
+services:
+  namer:
+    container_name: namer
+    image: ghcr.io/theporndatabase/namer:latest
+    restart: always
+    healthcheck: # <- if on a qnap nas, the default health check will not work for you, domain name is the container_name
+      test: [ "CMD-SHELL", "curl -f http://namer:6980/api/healthcheck || exit 1" ]
+      interval: 1m
+      timeout: 30s
+      # retries: 3
+      # start_period: 40s
+    networks:
+      - $NETWORKS
+    ports:
+      - 6980:6980
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+      - UMASK=000
+      - NAMER_CONFIG=/config/namer.cfg
+    volumes:
+      - $DATADIR/namer:/config # <- this will store the namer.cfg file copied by you from the git repo ( namer/namer.cfg.default )
+      - $NAMERDIR:/data # <- this will have the four folders namer needs to work, referenced in the namer.cfg file you create.
+    labels:
+      - "traefik.enable=true"
+      # Router för HTTPS
+      - "traefik.http.routers.namer-secure.rule=Host(`namer.$DOMAIN`)"
+      - "traefik.http.routers.namer-secure.entrypoints=https"
+      - "traefik.http.routers.namer-secure.tls=true"
+      - "traefik.http.routers.namer-secure.tls.certresolver=cloudflare" # Använder din Cloudflare certifikatutfärdare
+      - "traefik.http.routers.namer-secure.service=namer-service" # Namn på tjänsten nedan
+
+      # Definiera tjänsten som routern ska peka på
+      - "traefik.http.services.namer-service.loadbalancer.server.port=6980" # Sonarrs interna port
+
+      # Middleware för att lägga till X-Forwarded-Proto header (bra om Sonarr ligger bakom en proxy)
+      - "traefik.http.routers.namer-secure.middlewares=sslheader@docker" # Använder samma sslheader middleware som du definierat för Traefik
+
+      
