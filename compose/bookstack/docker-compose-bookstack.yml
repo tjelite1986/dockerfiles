@@ -1,0 +1,66 @@
+services:
+### free and open source Wiki designed for creating beautiful documentation. The default username is admin@admin.com⁠ with the password of password, access the container at http://:6875.
+# https://hub.docker.com/r/linuxserver/bookstack
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    container_name: bookstack
+    restart: unless-stopped
+    networks:
+      - $NETWORKS
+    ports:
+      - 6875:80
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      APP_URL: "https://bookstack.$DOMAIN"
+      APP_KEY: $APP_KEY
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USERNAME: bookstack
+      DB_PASSWORD: bookstack
+      DB_DATABASE: bookstack
+#      QUEUE_CONNECTION: #optional
+    volumes:
+      - $DATADIR/bookstack:/config
+    labels:
+      - "traefik.enable=true"
+      # Router för HTTPS
+      - "traefik.http.routers.bookstack-secure.rule=Host(`bookstack.$DOMAIN`)"
+      - "traefik.http.routers.bookstack-secure.entrypoints=https"
+      - "traefik.http.routers.bookstack-secure.tls=true"
+      - "traefik.http.routers.bookstack-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.bookstack-secure.service=bookstack-service"
+      - "traefik.http.services.bookstack-service.loadbalancer.server.port=80"
+      - "traefik.http.routers.bookstack-secure.middlewares=sslheader@docker"
+      
+###
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+    networks:
+      - $NETWORKS
+    ports:
+      - 3306:3306
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      MYSQL_ROOT_PASSWORD: bookstack
+      MYSQL_DATABASE: bookstack #optional
+      MYSQL_USER: bookstack #optional
+      MYSQL_PASSWORD: bookstack #optional
+#      REMOTE_SQL http://URL1/your.sql,https://URL2/your.sql #optional
+    volumes:
+      - $DATADIR/mariadb/config:/config
+    labels:
+      - "traefik.enable=true"
+      # Router för HTTPS
+      - "traefik.http.routers.mariadb-secure.rule=Host(`db.$DOMAIN`)"
+      - "traefik.http.routers.mariadb-secure.entrypoints=https"
+      - "traefik.http.routers.mariadb-secure.tls=true"
+      - "traefik.http.routers.mariadb-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.mariadb-secure.service=mariadb-service"
+      - "traefik.http.services.mariadb-service.loadbalancer.server.port=3306"
+      - "traefik.http.routers.mariadb-secure.middlewares=sslheader@docker"
