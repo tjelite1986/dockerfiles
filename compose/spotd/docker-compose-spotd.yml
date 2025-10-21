@@ -6,6 +6,6 @@ services:
     networks:
       - "$NETWORKS"
     volumes:
-      - .:/music
+      - /mnt/media/downloads/spotd:/music
     labels:
       - "traefik.enable=true"
