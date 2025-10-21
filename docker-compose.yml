@@ -17,3 +17,4 @@ include:
 #  - $DOCKERDIR/compose/filebrowser/docker-compose-filebrowser.yml
   - $DOCKERDIR/compose/pwndrop/docker-compose-pwndrop.yml
   - $DOCKERDIR/compose/portainer/docker-compose-portainer.yml
+  - $DOCKERDIR/compose/spotd/docker-compose-spotd.yml
