@@ -1,0 +1,11 @@
+services:
+  spotdl:
+    container_name: "spotd"
+    image: "spotdl/spotify-downloader"
+    restart: "unless-stopped"
+    networks:
+      - "t3_proxy"
+    volumes:
+      - .:/music
+    labels:
+      - "traefik.enable=true"
